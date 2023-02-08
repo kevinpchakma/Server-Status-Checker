@@ -1,0 +1,34 @@
+import socket
+
+def server_status_checker(host, port):
+    # Create a TCP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Set timeout for the socket to 5 seconds
+    sock.settimeout(5)
+    
+    try:
+        # Try to connect to the host and port specified
+        result = sock.connect_ex((host, port))
+        
+        # If the result of connect_ex is 0, the connection was successful
+        if result == 0:
+            return True
+        else:
+            return False
+    except socket.gaierror:
+        # If there is a socket error, return False
+        return False
+    finally:
+        # Close the socket in any case
+        sock.close()
+
+# Example host and port to check
+host = "google.com"
+port = 80
+
+# Check the server status and print the result
+if server_status_checker(host, port):
+    print(f"Server {host} on port {port} is up and running.")
+else:
+    print(f"Server {host} on port {port} is down.")
